@@ -23,8 +23,9 @@ public class CharacterStringCalculatorTest {
                 if (i > 2)
                     values[i - 1] = String.valueOf((int) result);
 
-                result = CalculatorMap.of(values[i]).operation.operation(Integer.parseInt(values[i - 1]),
+                result = CalculatorMap.of(values[i]).calculate(Integer.parseInt(values[i - 1]),
                         Integer.parseInt(values[i + 1]));
+
             }
         }
 
@@ -32,20 +33,38 @@ public class CharacterStringCalculatorTest {
 
     }
 
-    enum CalculatorMap {
+    enum CalculatorMap implements Operation {
 
-        PLUS("+", new CharacterStringCalculatorTest.plus()),
-        MINUS("-", new CharacterStringCalculatorTest.minus()),
-        MULTIPLICATION("*", new CharacterStringCalculatorTest.multiplication()),
-        DIVISION("/", new CharacterStringCalculatorTest.division());
+        PLUS("+") {
+            @Override
+            public double calculate(int a, int b) {
+                return a + b;
+            }
+        },
+        MINUS("-") {
+            @Override
+            public double calculate(int a, int b) {
+                return a - b;
+            }
+        },
+        MULTIPLICATION("*") {
+            @Override
+            public double calculate(int a, int b) {
+                return a * b;
+            }
+        },
+        DIVISION("/") {
+            @Override
+            public double calculate(int a, int b) {
+                return a / b;
+            }
+        };
 
         String operator;
-        Operation operation;
 
-        CalculatorMap(String operator, Operation operation) {
+        CalculatorMap(String operator) {
 
             this.operator = operator;
-            this.operation = operation;
         }
 
         private static Map<String, CalculatorMap> map = new HashMap<>();
@@ -68,40 +87,7 @@ public class CharacterStringCalculatorTest {
     }
 
     interface Operation {
-        double operation(int a, int b);
-    }
-
-
-    public static class plus implements Operation {
-
-        @Override
-        public double operation(int a, int b) {
-            return a + b;
-        }
-    }
-
-    public static class minus implements Operation {
-
-        @Override
-        public double operation(int a, int b) {
-            return a - b;
-        }
-    }
-
-    public static class multiplication implements Operation {
-
-        @Override
-        public double operation(int a, int b) {
-            return a * b;
-        }
-    }
-
-    public static class division implements Operation {
-
-        @Override
-        public double operation(int a, int b) {
-            return a / b;
-        }
+        double calculate(int a, int b);
     }
 
 }
