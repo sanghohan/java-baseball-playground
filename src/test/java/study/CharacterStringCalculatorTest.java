@@ -12,8 +12,8 @@ public class CharacterStringCalculatorTest {
     void calculatorForString() {
         String inputString = "2 + 3 * 4 / 2";
         String[] values = inputString.split(" ");
-
         double result = 0;
+
         for (int i = 0; i < values.length; i++) {
 
             if(i == (values.length - 1))
@@ -25,12 +25,9 @@ public class CharacterStringCalculatorTest {
 
                 result = CalculatorMap.of(values[i]).calculate(Integer.parseInt(values[i - 1]),
                         Integer.parseInt(values[i + 1]));
-
             }
         }
-
         assertThat(result).isEqualTo(10);
-
     }
 
     enum CalculatorMap implements Operation {
